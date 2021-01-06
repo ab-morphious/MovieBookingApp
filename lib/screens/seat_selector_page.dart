@@ -107,7 +107,7 @@ class _SeatSelectorState extends State<SeatSelector> {
                                     seatColors[index] = Colors.blue[400];
                                     widget._selectedSeats.add(index);
                                     }else{
-                                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('This seat is reserved')));
+                                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('This seat is reserved/blocked, please try selecting another')));
                                     }
                                   });
                                 },
