@@ -103,8 +103,12 @@ class _SeatSelectorState extends State<SeatSelector> {
                               return GestureDetector(
                                 onTap: () {
                                   setState(() {
+                                    if(seatColors[index] != Colors.grey){
                                     seatColors[index] = Colors.blue[400];
                                     widget._selectedSeats.add(index);
+                                    }else{
+                                      Scaffold.of(context).showSnackBar(SnackBar(content: Text('This seat is reserved')));
+                                    }
                                   });
                                 },
                                 child: Container(
