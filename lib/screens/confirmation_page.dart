@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 
 class ConfirmationPage extends StatefulWidget {
@@ -31,8 +32,9 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
         builder: (context) => ListView(
           children: [
             Screenshot(
-              controller: screenshotController,
+              controller: screenshotController,            
               child: Container(
+                color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -175,19 +177,22 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                     SizedBox(height: 30.0),
                     GestureDetector(
                       onTap: () async {
-                       
-                           screenshotController.capture().then((File image) async {
-                          //print("Capture Done");
-                          final result = await ImageGallerySaver.saveImage(
-                              image.readAsBytesSync());
-                          // Save image to gallery,  Needs plugin  https://pub.dev/packages/image_gallery_saver
-                          final snackBar = SnackBar(
-                              content: Text('Image saved to gallery!'));
-                          Scaffold.of(context).showSnackBar(snackBar);
+                        screenshotController.capture().then((File image) async {
+                          var status = await Permission.storage.status;
+
+                          if (await Permission.storage.request().isGranted) {
+                            print("Capture Done");
+
+                            final result = await ImageGallerySaver.saveImage(
+                                image.readAsBytesSync());
+                            // Save image to gallery,  Needs plugin  https://pub.dev/packages/image_gallery_saver
+                            final snackBar = SnackBar(
+                                content: Text('Image saved to gallery!'));
+                            Scaffold.of(context).showSnackBar(snackBar);
+                          }
                         }).catchError((onError) {
                           print(onError);
                         });
-                        
                       },
                       child: Container(
                         color: Colors.blue[300],

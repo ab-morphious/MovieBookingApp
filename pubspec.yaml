@@ -26,6 +26,7 @@ dependencies:
   screenshot: ^0.2.0
   image_gallery_saver: ^1.6.7
   xml: ^4.5.1
+  permission_handler: ^5.0.1
   flutter:
     sdk: flutter
 
